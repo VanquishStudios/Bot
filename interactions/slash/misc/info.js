@@ -13,8 +13,8 @@ const { EmbedBuilder, SlashCommandBuilder } = require("discord.js");
 
 const info = new EmbedBuilder()
     .setTitle('Info')   
-    .setColor('RANDOM')
-    .setDescription("So you want some info, huh. Well, Vanquish Studios is a new company consisting of a few team members.\nWe are currently making games for you right now!\nThere wil be <#1160230620996317234> Soon. In the meantime feel free to checkout our [website](https://vanquishstudios.github.io)  ")
+    .setColor('Random')
+    .setDescription("So you want some info, huh. Well, Vanquish Studios is a new company consisting of a few team members.\nWe are currently making games for you right now!\nThere wil be <#1160230620996317234> Soon. In the meantime feel free to checkout our [website](https://vanquishstudios.github.io).  ")
 
 module.exports = {
     data: new SlashCommandBuilder()
