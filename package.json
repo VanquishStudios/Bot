@@ -1,0 +1,29 @@
+{
+	"name": "Vanquish-Studios-Bot",
+	"version": "1.0",
+	"description": "The Official Bot for the Vanquish Studios Discord Server",
+	"types": "./typings.d.ts",
+	"main": "bot.js",
+	"scripts": {
+		"start": "node bot.js"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/VanquishStudios/Bot.git"
+	},
+	"keywords": [
+		"discord-js"
+	],
+	"license": "Apache-2.0",
+	"bugs": {
+		"url": "https://github.com/NamVr/DiscordBot-Template/issues"
+	},
+	"homepage": "https://github.com/NamVr/DiscordBot-Template#readme",
+	"dependencies": {
+		"@discordjs/rest": "^1.6.0",
+		"axios": "^1.5.1",
+		"discord-api-types": "^0.37.36",
+		"discord-gamecord": "^4.4.1",
+		"discord.js": "^14.8.0"
+	}
+}
