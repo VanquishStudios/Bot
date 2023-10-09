@@ -30,13 +30,17 @@ module.exports = {
 
 		const { client, guild, channel, content, author } = message;
         const allowedRoleIds = ['1114602264292769902','1068578900734652558','1112802199148433609','1068579171615387759','1081173142728343583']; 
-		const hasAllowedRole = message.member.roles.cache.some(role => allowedRoleIds.includes(role.id));
-
+		const hasRoles = message.member.roles.cache.size > 0;
 		if (message.channel.id == '1160542393381179562' || message.author.id != '1160533832185958420' ) {
-			if (!hasAllowedRole) {
-			message.delete()
-		}
-	}
+			if(hasRoles){
+				const hasAllowedRole = message.member.roles.cache.some(role => allowedRoleIds.includes(role.id)); 
+				if (!hasAllowedRole) {
+					message.delete()
+				} 
+			} else {
+				message.delete()
+		}}
+
 
 
 		// Checks if the bot is mentioned in the message all alone and triggers onMention trigger.

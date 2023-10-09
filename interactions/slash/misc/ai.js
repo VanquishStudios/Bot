@@ -11,9 +11,17 @@ module.exports = {
         .setDescription('Ask the AI a question')
         .addStringOption(option => option.setName('question').setDescription('The question to ask the AI').setRequired(true)),
     async execute(interaction) {
-        await interaction.deferReply({  });
         const { options } = interaction;
-        const question = options.getString('question');
+        question = options.getString('question');
+        function removeEmojis(str) {
+            var emojiRE = /\p{EPres}|\p{ExtPict}/gu;
+            return str.replace(emojiRE, '');
+        }
+        question = removeEmojis(question);
+
+        await interaction.deferReply({  });
+
+
         const input = {
             method: 'GET',
             url: 'https://google-bard1.p.rapidapi.com/',
@@ -25,6 +33,7 @@ module.exports = {
                 'X-RapidAPI-Host': 'google-bard1.p.rapidapi.com'
             }
         };
+
         try {
             const output = await axios.request(input);
             const embed = new EmbedBuilder()
