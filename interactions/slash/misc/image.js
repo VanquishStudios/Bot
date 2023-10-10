@@ -4,7 +4,15 @@
 
 const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
 const {XProdiaKey} = require('../../../config.json')
-const fetch = require('node-fetch');
+const axios = require('axios');
+
+const instance = axios.create({
+  baseURL: 'https://api.prodia.com/v1',
+  headers: {
+    'X-Prodia-Key': XProdiaKey,
+  },
+});
+
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -14,49 +22,40 @@ module.exports = {
 
   async execute(interaction, client) {
     await interaction.deferReply();
-
     const prompt = interaction.options.getString('prompt');
-    const options = {
+      const config = {
       method: 'POST',
-      headers: {
-        accept: 'application/json',
-        'content-type': 'application/json',
-        'X-Prodia-Key': XProdiaKey
+      url: '/job',
+      data: {
+        prompt,
       },
-      body: JSON.stringify({
-        prompt: `${prompt}`,
-      })
     };
-
-    fetch('https://api.prodia.com/v1/job', options)
-      .then(response => response.json())
-      .then(jobResponse => {
-        const jobId = jobResponse.job;
-
-        const options2 = {
+  
+    instance(config)
+      .then(async (response) => {
+        const jobId = response.data.job;
+  
+        const config2 = {
           method: 'GET',
-          headers: {
-            accept: 'application/json',
-            'X-Prodia-Key': XProdiaKey
-          }
+          url: `/job/${jobId}`,
         };
-
+  
         setTimeout(() => {
-          fetch(`https://api.prodia.com/v1/job/${jobId}`, options2)
-            .then(response => response.json())
-            .then(async response => {
-              const image = response.imageUrl;
+          instance(config2)
+            .then((response) => {
+              const image = response.data.imageUrl;
+  
               const embed = new EmbedBuilder()
-              .setImage(`${image}`)
-              .setTitle(`Generated Image!`)
-              .setDescription(`> **${prompt}**`)
-              .setColor('Random')
-              .setTimestamp()
-              await interaction.followUp({embeds: [embed]});
+                .setImage(image)
+                .setTitle('Generated Image!')
+                .setDescription(`> **${prompt}**`)
+                .setColor('Random')
+                .setTimestamp();
+              interaction.followUp({ embeds: [embed] });
             })
-            .catch(err => console.error(err));
+            .catch((err) => console.error(err));
         }, 5000);
       })
-      .catch(err => console.error(err));
-  },
+      .catch((err) => console.error(err));
+  }
 };
