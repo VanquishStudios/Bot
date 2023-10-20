@@ -59,7 +59,6 @@ module.exports = {
 		try {
 			await command.execute(interaction);
 		} catch (err) {
-			console.error(err);
 			await interaction.reply({
 				content: "There was an issue while executing that command!",
 				ephemeral: true,
